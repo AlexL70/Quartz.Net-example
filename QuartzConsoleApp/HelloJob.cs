@@ -1,9 +1,5 @@
 ﻿using Quartz;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace QuartzConsoleApp
 {
@@ -11,12 +7,13 @@ namespace QuartzConsoleApp
     {
         private string _jobName;
         private IJobExecutionContext _context;
+        private static object _lockObject = new object();
 
         protected string JobName
         {
             get
             {
-                if (String.IsNullOrEmpty(_jobName))
+                if (string.IsNullOrEmpty(_jobName))
                 {
                     JobKey key = _context.JobDetail.Key;
                     JobDataMap map = _context.JobDetail.JobDataMap;
@@ -36,7 +33,10 @@ namespace QuartzConsoleApp
             {
                 _context = context;
             }
-            Console.WriteLine($"Greetings from {JobName}!");
+            lock (_lockObject)
+            {
+                Console.WriteLine($"Greetings from {JobName}!");
+            }
         }
     }
 }
