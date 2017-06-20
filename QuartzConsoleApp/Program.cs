@@ -11,6 +11,7 @@ namespace QuartzConsoleApp
         {
             try
             {
+                Common.Logging.LogManager.Adapter = new Common.Logging.Simple.ConsoleOutLoggerFactoryAdapter() { Level = Common.Logging.LogLevel.Info };
                 //  Grab Scheduler instance from the factory
                 IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler();
                 //  and start it off
